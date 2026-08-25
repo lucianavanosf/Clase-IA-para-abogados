@@ -2,9 +2,9 @@
 
 **Pontificia Universidad Javeriana · 2026-II · Docente: Pedro Ardila**
 
-> **Estudiante:** [escribe aquí tu nombre completo]
-> **Nombre del proyecto:** [escribe aquí el nombre de tu herramienta]
-> **Fecha de inicio:** [AAAA-MM-DD]
+> **Estudiante:** Luciana Margarita Vaños Fuentes
+> **Nombre del proyecto:** TutelaYa
+> **Fecha de inicio:** [2026-08-24]
 
 ---
 
@@ -22,27 +22,33 @@ Bienvenido/a a tu repositorio de proyecto. **Este archivo es tu tablero de mando
 
 ### 1.1 El problema jurídico
 ¿Qué problema **real del derecho colombiano** resuelve tu herramienta? ¿Quién lo sufre hoy y cómo lo resuelve sin tu herramienta?
+Muchas personas en Colombia tienen dificultades para identificar cuándo una situación puede vulnerar un derecho fundamental y cómo presentar una acción de tutela. Aunque la tutela es un mecanismo diseñado para proteger derechos fundamentales de manera rápida, su elaboración puede resultar complicada para personas que no tienen conocimientos jurídicos. Actualmente, una persona que necesita presentar una tutela suele buscar modelos en internet, acudir a un abogado o intentar redactarla por su cuenta, lo que puede llevar a omitir hechos, derechos o pretensiones importantes. La herramienta busca facilitar este proceso mediante una guía que, a partir de los hechos proporcionados por el usuario, identifique los posibles derechos fundamentales involucrados y genere un borrador de tutela basado únicamente en las fuentes jurídicas que hacen parte del corpus. La herramienta no pretende decidir si una tutela será concedida, sino ayudar a estructurar jurídicamente la situación.
 
 ### 1.2 Usuarios
 ¿Quién va a usarla? Describe a tu usuario ideal en una frase (ej. *"un arrendatario bogotano que le subieron el canon de arrendamiento más del límite legal"*). Recuerda que al final necesitas **al menos un usuario real** que la pruebe.
+El usuario ideal es una persona en Colombia que considera que una autoridad pública o, en determinados casos, un particular está vulnerando alguno de sus derechos fundamentales y necesita entender cómo podría presentar una acción de tutela. También puede ser útil para estudiantes de derecho que estén aprendiendo a estructurar este mecanismo constitucional. La herramienta estará pensada especialmente para usuarios que no tienen formación jurídica y necesitan convertir los hechos de su situación en una estructura jurídica comprensible. Al finalizar el proyecto, al menos una persona externa al curso probará la herramienta utilizando un caso ficticio.
+
 
 ### 1.3 Qué hace y qué NO hace (alcance)
 | ✅ Sí hace | ❌ No hace |
 | --- | --- |
-| [funcionalidad 1] | [fuera de alcance 1] |
-| [funcionalidad 2] | [fuera de alcance 2] |
+| Hace preguntas al usuario sobre los hechos de su situación. | No determina definitivamente si el usuario tiene razón jurídicamente |
+| Identifica posibles derechos fundamentales relacionados con los hechos. | No garantiza que una tutela sea admitida o concedida por un juez. |
+|Genera un borrador estructurado de acción de tutela. | No reemplaza la asesoría de un abogado.|
+| Explica qué normas y jurisprudencia utiliza y cita las fuentes. | No presenta automáticamente la tutela ante un juzgado. |
+| Señala cuando no encuentra suficiente fundamento jurídico en el corpus. | No inventa normas, artículos o sentencias para completar una respuesta. |
 
 *Consejo de abogado: un alcance pequeño y perfecto vale más que uno grande y roto.*
 
 ### 1.4 Marco jurídico y fuentes
 ¿Qué normas alimentan tu herramienta? Lista tu corpus normativo (leyes, decretos, sentencias — debe ser **pequeño y público**):
-- [ ] Norma/sentencia 1: [nombre + enlace]
-- [ ] Norma/sentencia 2: [nombre + enlace]
+- [ ] Norma/sentencia 1: Constitución Política de Colombia, artículo 86 +(https://www.constitucioncolombia.com/titulo-2/capitulo-4/articulo-86)]
+- [ ] Norma/sentencia 2: Jurisprudencia de la Corte Constitucional sobre acción de tutela: + (https://www.corteconstitucional.gov.co/relatoria/buscador-jurisprudencia)]
 
 ### 1.5 Nombre y lema
 Un nombre corto para tu herramienta y una frase que explique qué hace (la usarás en la demo del día de presentaciones).
 
----
+TutelaYa
 
 ## 🗺️ Parte 2 — Plan de desarrollo
 
