@@ -1,4 +1,6 @@
-# ⚖️🤖 Proyecto Final — Derecho e Inteligencia Artificial
+
+**Pontificia Universidad Javeriana · 2026-II · Docente: Pedro Ardila**
+ç# ⚖️🤖 Proyecto Final — Derecho e Inteligencia Artificial
 
 **Pontificia Universidad Javeriana · 2026-II · Docente: Pedro Ardila**
 
@@ -31,7 +33,7 @@ El usuario ideal es una persona en Colombia que considera que una autoridad púb
 
 ### 1.3 Qué hace y qué NO hace (alcance)
 | ✅ Sí hace | ❌ No hace |
-| --- | --- |
+|| --- |
 | Hace preguntas al usuario sobre los hechos de su situación. | No determina definitivamente si el usuario tiene razón jurídicamente |
 | Identifica posibles derechos fundamentales relacionados con los hechos. | No garantiza que una tutela sea admitida o concedida por un juez. |
 |Genera un borrador estructurado de acción de tutela. | No reemplaza la asesoría de un abogado.|
@@ -200,5 +202,6 @@ Requisitos de entrega del curso — todos deben estar ✅:
 - [ ] 📋 Partes 1–7 de este README completas y al día.
 
 ---
+
 
 *Construido con asistencia de IA — como se enseña en este curso.* 🧑‍⚖️🤖
