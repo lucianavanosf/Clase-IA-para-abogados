@@ -45,7 +45,8 @@ El usuario ideal es una persona en Colombia que considera que una autoridad púb
 ### 1.4 Marco jurídico y fuentes
 ¿Qué normas alimentan tu herramienta? Lista tu corpus normativo (leyes, decretos, sentencias — debe ser **pequeño y público**):
 - [ ] Norma/sentencia 1: Constitución Política de Colombia, artículo 86 +(https://www.constitucioncolombia.com/titulo-2/capitulo-4/articulo-86)]
-- [ ] Norma/sentencia 2: Jurisprudencia de la Corte Constitucional sobre acción de tutela: + (https://www.corteconstitucional.gov.co/relatoria/buscador-jurisprudencia)]
+- [ ] Norma/sentencia 2: Jurisprudencia de la Corte Constitucional sobre acción de tutela: + (https://www.corteconstitucional.gov.co/relatoria/buscador-jurisprudencia=
+- [ ] Norma/sentencia 3: https://www.ramajudicial.gov.co/documents/10635/132404628/DECRETO+2591+DE+1991.pdf/f3632cc9-cad6-8925-21f0-f403a7d84966?t=1678798669395 
 
 ### 1.5 Nombre y lema
 Un nombre corto para tu herramienta y una frase que explique qué hace (la usarás en la demo del día de presentaciones).
