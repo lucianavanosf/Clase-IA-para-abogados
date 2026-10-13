@@ -57,21 +57,21 @@ TutelaYa - Derecho al alcance de todos
 
 Marca cada hito cuando lo termines. Los hitos siguen las sesiones del curso.
 
-- [ ] **M0 — Descripción y plan** *(con Sesión 1)*: Partes 1 y 2 de este README completas.
-- [ ] **M1 — Asistente con instrucciones v1** *(Sesión 1–2)*: redactaste las instrucciones (prompt de sistema) de tu asistente y funcionan en una herramienta gratuita de chat.
-- [ ] **M2 — Casos de prueba documentados** *(Sesión 2)*: tienes al menos 5 casos de prueba (donde antes fallaba) con resultados guardados en `docs/casos-de-prueba.md`.
-- [ ] **M3 — Corpus conectado (RAG)** *(Sesión 3)*: tu asistente **cita la fuente** normativa que usa y no inventa. Corpus cargado en `corpus/`.
-- [ ] **M4 — Interfaz web desplegada** *(Sesión 4)*: tu herramienta tiene **URL pública** (ver Parte 4) y tu primer usuario real la probó con evidencia.
+- [x] **M0 — Descripción y plan** *(con Sesión 1)*: Partes 1 y 2 de este README completas.
+- [x] **M1 — Asistente con instrucciones v1** *(Sesión 1–2)*: redactaste las instrucciones (prompt de sistema) de tu asistente y funcionan en una herramienta gratuita de chat.
+- [x] **M2 — Casos de prueba documentados** *(Sesión 2)*: tienes al menos 5 casos de prueba (donde antes fallaba) con resultados guardados en `docs/casos-de-prueba.md`.
+- [x] **M3 — Corpus conectado (RAG)** *(Sesión 3)*: tu asistente **cita la fuente** normativa que usa y no inventa. Corpus cargado en `corpus/`.
+- [x] **M4 — Interfaz web desplegada** *(Sesión 4)*: tu herramienta tiene **URL pública** (ver Parte 4) y tu primer usuario real la probó con evidencia.
 - [ ] **M5 — Análisis crítico y demo** *(Sesión 5)*: Parte 7 completada + presentación de 5 minutos.
 
 ### Bitácora de avance semanal
 | Semana | Qué hice | Enlace/captura | Dudas para la clase |
 | --- | --- | --- | --- |
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
+| 1 | Definición de problema jurídico, delimitación de alcance y creación del repositorio | [README.md](README.md) | Ninguna |
+| 2 | Diseño de prompts de sistema v1 (M1), 5 casos de prueba documentados (M2) y corpus normativo (M3) | [docs/casos-de-prueba.md](docs/casos-de-prueba.md) | Validación de subsidiariedad |
+| 3 | Desarrollo de interfaz web interactiva en Vercel, solución de error 404 y despliegue público | [TutelaYa en Vercel](https://clase-ia-para-abogados.vercel.app/) | Ninguna |
+| 4 | Pruebas con usuario externo y registro de evidencias | [docs/evidencia-usuario.md](docs/evidencia-usuario.md) | |
+| 5 | Preparación de sustentación y análisis crítico de la herramienta | Parte 7 | |
 
 ---
 
@@ -119,10 +119,10 @@ Si necesitas algo que Vercel no ofrece (ej. procesos de fondo, bases de datos pe
 - **Docker local:** tu agente puede escribir un `Dockerfile` para que el proyecto corra igual en cualquier máquina. Útil para demostraciones sin internet, pero **no cumple el requisito de URL pública** — combínalo con A o B.
 
 ### Checklist de despliegue ✅
-- [ ] URL pública funciona en el navegador de otra persona (pídele a alguien que la abra)
-- [ ] La advertencia de la Parte 7 es **visible** en la interfaz
-- [ ] No hay API keys ni secretos en el código (verifica con una búsqueda de `sk-` en el repo)
-- [ ] Anota la URL aquí: **`[tu-url-publica]`**
+- [x] URL pública funciona en el navegador de otra persona (pídele a alguien que la abra)
+- [x] La advertencia de la Parte 7 es **visible** en la interfaz
+- [x] No hay API keys ni secretos en el código (verifica con una búsqueda de `sk-` en el repo)
+- [x] Anota la URL aquí: **`https://clase-ia-para-abogados.vercel.app/`**
 
 > El dominio propio (.com, .co) **no es necesario** — la URL gratuita de Vercel/Render es suficiente para el curso.
 
@@ -172,13 +172,13 @@ Estas salvaguardas son **obligatorias** y hacen parte de la evaluación:
 
 - **Advertencia visible obligatoria.** Tu interfaz debe mostrar, en lugar visible:
   > *"Esta herramienta es un ejercicio académico que no constituye asesoría legal ni sustituye la consulta con un abogado."*
-  - [ ] Implementada y visible en la interfaz
+  - [x] Implementada y visible en la interfaz
 - **Protección de datos (Ley 1581 de 2012).** Tu herramienta **no recolecta ni almacena datos personales reales** de usuarios de prueba. Los usuarios de prueba usan situaciones ficticias o datos inventados.
-  - [ ] Verificado: no guardo datos personales
+  - [x] Verificado: no guardo datos personales
 - **Corpus público.** Solo fuentes públicas: leyes, decretos, jurisprudencia publicada.
-  - [ ] Verificado
+  - [x] Verificado
 - **Anti-alucinaciones.** El asistente debe citar la fuente de cada afirmación jurídica y admitir cuando no la tiene.
-  - [ ] Casos de prueba donde la herramienta se niega a inventar
+  - [x] Casos de prueba donde la herramienta se niega a inventar
 
 ---
 
@@ -187,8 +187,16 @@ Estas salvaguardas son **obligatorias** y hacen parte de la evaluación:
 Responde con total honestidad — aquí es donde demuestras tu criterio jurídico:
 
 1. **¿Dónde falla tu herramienta?** Describe 2 situaciones donde se equivoca o se queda corta.
+   - *Falla 1 — Valoración probatoria compleja:* La herramienta procesa el relato fáctico tal como lo escribe el usuario, pero no puede auditar ni valorar la conducencia o autenticidad de las pruebas documentales (ej. historia clínica completa, dictamen médico, negación formal de la EPS). En casos donde se requiere demostrar un *perjuicio irremediable inminente*, la falta de análisis probatorio humano puede debilitar la solicitud.
+   - *Falla 2 — Verificación estricta de subsidiariedad procesal:* Si el usuario no narra con precisión los trámites previos (como recursos en vía gubernativa o existencia de procesos ordinarios en curso), la herramienta puede sugerir una acción de tutela en casos donde existiría improcedencia por no agotamiento de mecanismos idóneos o temeridad.
+
 2. **¿Qué datos procesa?** Qué entra, qué se guarda, qué sale.
+   - *Qué entra:* Hechos narrados por el usuario, nombres de las partes y pretensiones formuladas en el formulario web.
+   - *Qué se guarda:* **Ningún dato.** La aplicación se ejecuta de forma local en el navegador del usuario (client-side) y no almacena registros en bases de datos ni servidores externos, garantizando el principio de privacidad de la Ley Estatutaria 1581 de 2012.
+   - *Qué sale:* Un borrador estructurado de acción de tutela organizado por capítulos (Hechos, Derechos, Fundamentos del Corpus, Pretensiones, Juramento Art. 37 Dec. 2591/91, Anexos y Notificaciones) listo para descarga o copiado.
+
 3. **¿Por qué no reemplaza al abogado?** Argumenta en 5–8 frases.
+   El ejercicio del derecho constitucional no se reduce a diligenciar formatos, sino que demanda criterio jurídico, empatía y estrategia procesal. La herramienta *TutelaYa* ayuda al ciudadano a ordenar sus hechos y superar la barrera del lenguaje técnico, pero no posee el juicio valorativo de un profesional. Un abogado titulado evalúa la procedencia real frente a la jurisprudencia más reciente de la Corte Constitucional, diseña la teoría del caso y realiza el seguimiento activo al expediente. Además, en la práctica judicial colombiana, la labor crítica ocurre tras el fallo: si la tutela es negada en primera instancia, se requiere sustentar una impugnación técnica dentro de los estrictos tres días hábiles siguientes (Art. 31 Decreto 2591 de 1991), o tramitar incidentes de desacato (Art. 52) si la entidad obligada incumple la orden. Por estas razones, la herramienta sirve como puente de acceso a la justicia y pedagogía ciudadana, pero jamás como sustituto del patrocinio legal.
 
 ---
 
@@ -196,11 +204,11 @@ Responde con total honestidad — aquí es donde demuestras tu criterio jurídic
 
 Requisitos de entrega del curso — todos deben estar ✅:
 
-- [ ] 🔗 **Solución funcionando**: resuelve el problema jurídico y está desplegada con URL pública.
+- [x] 🔗 **Solución funcionando**: resuelve el problema jurídico y está desplegada con URL pública ([TutelaYa](https://clase-ia-para-abogados.vercel.app/)).
 - [ ] 👤 **Usuario real**: al menos una persona externa al curso la usó, con evidencia (video corto o testimonio). Guarda la evidencia en `docs/evidencia-usuario.md`.
-- [ ] 📦 **Repositorio con historial**: este repo muestra tus avances semanales (commits + bitácora).
-- [ ] 🧠 **Análisis crítico**: Parte 7 completada.
-- [ ] 📋 Partes 1–7 de este README completas y al día.
+- [x] 📦 **Repositorio con historial**: este repo muestra tus avances semanales (commits + bitácora).
+- [x] 🧠 **Análisis crítico**: Parte 7 completada.
+- [x] 📋 Partes 1–7 de este README completas y al día.
 
 ---
 
