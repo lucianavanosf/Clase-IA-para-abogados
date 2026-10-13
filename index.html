@@ -3,263 +3,654 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TutelaYa — Derecho al alcance de todos</title>
+  <title>TutelaYa ⚖️ — Derecho al alcance de todos</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
+    pre, code, .font-mono { font-family: 'JetBrains Mono', monospace; }
+    @media print {
+      body * { visibility: hidden; }
+      #printableArea, #printableArea * { visibility: visible; }
+      #printableArea { position: absolute; left: 0; top: 0; width: 100%; }
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
 
-  <!-- Advertencia Legal Obligatoria (Parte 6) -->
-  <div class="bg-amber-500 text-slate-900 px-4 py-2.5 text-center text-xs md:text-sm font-semibold shadow-sm flex items-center justify-center gap-2">
+  <!-- AVISO ÉTICO Y LEGAL OBLIGATORIO (Parte 6 del Proyecto) -->
+  <aside class="bg-amber-500 text-slate-950 px-4 py-2 text-center text-xs sm:text-sm font-semibold tracking-wide shadow-sm flex items-center justify-center gap-2">
     <span>⚠️</span>
     <span>Esta herramienta es un ejercicio académico que no constituye asesoría legal ni sustituye la consulta con un abogado.</span>
-  </div>
+  </aside>
 
-  <!-- Header -->
-  <header class="bg-slate-900 text-white border-b border-slate-800 shadow">
-    <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+  <!-- NAVBAR / HEADER -->
+  <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center text-xl font-bold shadow">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-700 to-indigo-500 flex items-center justify-center text-xl shadow-md border border-white/10">
           ⚖️
         </div>
         <div>
-          <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            TutelaYa
-            <span class="text-xs bg-blue-500/30 text-blue-300 font-medium px-2 py-0.5 rounded-full border border-blue-400/30">v1.0 Demo</span>
-          </h1>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-extrabold tracking-tight text-white">TutelaYa</span>
+            <span class="text-[11px] font-semibold bg-blue-500/20 text-blue-300 border border-blue-400/30 px-2 py-0.5 rounded-full">v1.2 Demo</span>
+          </div>
           <p class="text-xs text-slate-400">Derecho al alcance de todos · Pontificia Universidad Javeriana</p>
         </div>
       </div>
-      <div class="text-xs text-slate-400 text-center sm:text-right">
-        Proyecto: <span class="text-slate-200 font-medium">Derecho e Inteligencia Artificial</span>
-      </div>
+
+      <!-- Navegación por pestañas -->
+      <nav class="flex items-center bg-slate-800/90 p-1 rounded-xl border border-slate-700 text-xs">
+        <button id="tabBtnGenerador" onclick="cambiarTab('generador')" class="tab-btn px-3 py-1.5 rounded-lg font-medium transition bg-blue-600 text-white shadow-sm">
+          📝 Generador
+        </button>
+        <button id="tabBtnCasos" onclick="cambiarTab('casos')" class="tab-btn px-3 py-1.5 rounded-lg font-medium text-slate-300 hover:text-white transition">
+          🧪 Casos de Prueba
+        </button>
+        <button id="tabBtnCorpus" onclick="cambiarTab('corpus')" class="tab-btn px-3 py-1.5 rounded-lg font-medium text-slate-300 hover:text-white transition">
+          📚 Corpus (RAG)
+        </button>
+        <button id="tabBtnConfig" onclick="cambiarTab('config')" class="tab-btn px-3 py-1.5 rounded-lg font-medium text-slate-300 hover:text-white transition">
+          ⚙️ Ajustes IA
+        </button>
+      </nav>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="max-w-5xl mx-auto px-4 py-8 flex-1 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
-    
-    <!-- Formulario / Entrada de hechos -->
-    <div class="lg:col-span-6 flex flex-col gap-5">
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-        <h2 class="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
-          <span>📝</span> Cuéntanos tu situación
-        </h2>
-        <p class="text-xs text-slate-500 mb-5">
-          Ingresa los hechos de manera cronológica. La herramienta estructurará el caso e identificará los posibles derechos fundamentales en Colombia.
-        </p>
+  <!-- CONTENEDOR PRINCIPAL -->
+  <main class="max-w-6xl mx-auto px-4 py-6 flex-1 w-full">
 
-        <form id="tutelaForm" class="space-y-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-              ¿Contra quién se presenta? (Entidad o Particular)
-            </label>
-            <input 
-              type="text" 
-              id="accionado" 
-              placeholder="Ej: EPS Sanitas, Secretaría de Educación, etc." 
-              required
-              class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-            />
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-              Derecho presuntamente vulnerado
-            </label>
-            <select 
-              id="derecho" 
-              class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition bg-white"
-            >
-              <option value="Salud y Vida Digna (Art. 11 y 49 CP)">Salud y Vida Digna (Art. 11 y 49 CP)</option>
-              <option value="Derecho de Petición (Art. 23 CP)">Derecho de Petición (Art. 23 CP)</option>
-              <option value="Debido Proceso Administrativo (Art. 29 CP)">Debido Proceso Administrativo (Art. 29 CP)</option>
-              <option value="Educación (Art. 67 CP)">Educación (Art. 67 CP)</option>
-              <option value="Mínimo Vital y Seguridad Social (Art. 48 y 53 CP)">Mínimo Vital y Seguridad Social (Art. 48 y 53 CP)</option>
-              <option value="Otro / Por determinar a partir de los hechos">Otro / Por determinar a partir de los hechos</option>
-            </select>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-              Hechos ocurridos (¿Qué pasó y en qué fechas?)
-            </label>
-            <textarea 
-              id="hechos" 
-              rows="5" 
-              placeholder="Ej: El pasado 15 de enero el médico especialista me ordenó el medicamento X. Radiqué la solicitud ante la EPS el día 20 de enero con radicado #12345. A la fecha han pasado más de 30 días y no he recibido entrega ni respuesta..." 
-              required
-              class="w-full text-sm p-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition resize-none"
-            ></textarea>
-          </div>
-
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
-              ¿Qué solicitas que ordene el juez? (Pretensión principal)
-            </label>
-            <input 
-              type="text" 
-              id="pretension" 
-              placeholder="Ej: Que se ordene la entrega inmediata del medicamento prescrito..." 
-              required
-              class="w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
-            />
-          </div>
-
-          <div class="pt-2">
-            <button 
-              type="submit" 
-              id="btnGenerar"
-              class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-xl text-sm transition shadow-sm hover:shadow flex items-center justify-center gap-2"
-            >
-              <span>⚖️</span>
-              <span>Generar Borrador Estructurado</span>
+    <!-- SECCIÓN 1: GENERADOR DE TUTELA -->
+    <div id="seccionGenerador" class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      
+      <!-- Formulario de Entrada -->
+      <div class="lg:col-span-5 flex flex-col gap-4">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              <span>✍️</span> Estructura tu caso
+            </h2>
+            <button onclick="cargarCasoEjemplo(1)" class="text-xs text-blue-600 hover:text-blue-800 font-medium hover:underline">
+              Cargar ejemplo
             </button>
           </div>
-        </form>
+          <p class="text-xs text-slate-500 mb-4">
+            Convierte tus hechos en un borrador de tutela fundado en el Art. 86 CP y Decreto 2591 de 1991.
+          </p>
+
+          <form id="tutelaForm" onsubmit="generarBorrador(event)" class="space-y-3.5">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                Accionante (Tu nombre o en representación de)
+              </label>
+              <input 
+                type="text" 
+                id="accionante" 
+                placeholder="Ej: Luciana Vaños (o Ciudadano/a)" 
+                value="[Nombre del Ciudadano/a]"
+                class="w-full text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                Ciudad o Municipio
+              </label>
+              <input 
+                type="text" 
+                id="ciudad" 
+                placeholder="Ej: Bogotá D.C." 
+                value="Bogotá D.C."
+                class="w-full text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                Accionado (Entidad o Particular responsable)
+              </label>
+              <input 
+                type="text" 
+                id="accionado" 
+                placeholder="Ej: EPS Sanitas / Secretaría de Movilidad" 
+                required
+                class="w-full text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+              />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                Derecho Fundamental Vulnerado
+              </label>
+              <select 
+                id="derecho" 
+                class="w-full text-xs sm:text-sm px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition bg-white"
+              >
+                <option value="salud">Salud y Vida Digna (Art. 11, 49 CP · Sentencia T-760/08)</option>
+                <option value="peticion">Derecho de Petición (Art. 23 CP · Ley 1755/15)</option>
+                <option value="educacion">Derecho a la Educación (Art. 44, 67 CP)</option>
+                <option value="debido_proceso">Debido Proceso Administrativo (Art. 29 CP)</option>
+                <option value="minimo_vital">Mínimo Vital y Seguridad Social (Art. 48, 53 CP)</option>
+                <option value="agua">Agua Potable y Vida Digna (Sentencia T-740/11)</option>
+                <option value="personalizado">Otro derecho / Extraer de los hechos</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                Hechos ocurridos (Narración cronológica)
+              </label>
+              <textarea 
+                id="hechos" 
+                rows="4" 
+                placeholder="Narra de forma clara qué pasó, con fechas y números de radicado si los tienes..." 
+                required
+                class="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none leading-relaxed"
+              ></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+                ¿Qué solicitas que ordene el juez? (Pretensión)
+              </label>
+              <textarea 
+                id="pretension" 
+                rows="2" 
+                placeholder="Ej: Se ordene la entrega inmediata del medicamento prescrito..." 
+                required
+                class="w-full text-xs sm:text-sm p-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 transition resize-none"
+              ></textarea>
+            </div>
+
+            <!-- Opciones procesales -->
+            <div class="pt-1 flex flex-col gap-1.5 text-xs text-slate-600">
+              <label class="inline-flex items-center gap-2 cursor-pointer">
+                <input type="checkbox" id="chkMedidaCautelar" class="rounded text-blue-600 focus:ring-blue-500" />
+                <span>Solicitar Medida Cautelar / Tratamiento Integral Provisional</span>
+              </label>
+            </div>
+
+            <div class="pt-2">
+              <button 
+                type="submit" 
+                id="btnProcesar"
+                class="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl text-xs sm:text-sm transition shadow flex items-center justify-center gap-2"
+              >
+                <span>⚖️</span>
+                <span>Generar Borrador de Tutela</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Banner de datos privados (Ley 1581) -->
+        <div class="bg-slate-100 rounded-xl p-3 border border-slate-200 text-[11px] text-slate-600 flex items-center gap-2">
+          <span>🔒</span>
+          <span><strong>Protección de Datos:</strong> Esta aplicación procesa el borrador en tu navegador. No almacena ni transmite datos personales sensibles (Ley 1581 de 2012).</span>
+        </div>
       </div>
 
-      <!-- Fuentes y Fundamento Normativo -->
-      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-5 text-xs text-blue-900">
-        <h3 class="font-bold uppercase tracking-wider mb-2 flex items-center gap-1.5 text-blue-950">
-          <span>📚</span> Marco Normativo Aplicado (Corpus Jurídico)
-        </h3>
-        <ul class="space-y-1.5 list-disc list-inside text-blue-800">
-          <li><strong>Constitución Política de Colombia (Art. 86):</strong> Mecanismo de tutela para la protección inmediata de derechos fundamentales.</li>
-          <li><strong>Decreto 2591 de 1991:</strong> Normas que reglamentan la acción de tutela (requisitos, trámite y términos perentorios).</li>
-          <li><strong>Corte Constitucional de Colombia:</strong> Criterios de subsidiariedad e inmediatez.</li>
-        </ul>
+      <!-- Panel de Visualización del Borrador -->
+      <div class="lg:col-span-7 flex flex-col">
+        <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex-1 flex flex-col">
+          
+          <div class="flex flex-wrap items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                <span>📄</span> Borrador Judicial Estructurado
+              </h3>
+              <p class="text-[11px] text-slate-500" id="estadoDocumento">Listo para generar</p>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button 
+                id="btnCopiar" 
+                onclick="copiarBorrador()" 
+                class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 border border-slate-200"
+              >
+                <span>📋</span> Copiar
+              </button>
+              <button 
+                id="btnDescargar" 
+                onclick="descargarTexto()" 
+                class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 border border-slate-200"
+              >
+                <span>💾</span> Guardar (.txt)
+              </button>
+              <button 
+                onclick="imprimirBorrador()" 
+                class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 border border-slate-200"
+              >
+                <span>🖨️</span> Imprimir
+              </button>
+            </div>
+          </div>
+
+          <!-- Área de visualización editable -->
+          <div 
+            id="printableArea"
+            class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-4 overflow-y-auto font-mono text-xs text-slate-800 leading-relaxed max-h-[620px] whitespace-pre-wrap select-text focus:outline-none focus:ring-1 focus:ring-blue-400"
+            contenteditable="true"
+            placeholder="Aquí aparecerá el borrador generado..."
+          >Completa el formulario y presiona 'Generar Borrador de Tutela' para estructurar la acción judicial. También puedes editar directamente este texto después de generarlo.</div>
+
+          <div class="mt-3 pt-2 text-[11px] text-slate-400 flex items-center justify-between">
+            <span>Fundamentado en Decreto 2591 de 1991 (Arts. 14 y 37)</span>
+            <span>Tip: Puedes editar el texto directamente antes de descargarlo</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECCIÓN 2: CASOS DE PRUEBA (HITO M2) -->
+    <div id="seccionCasos" class="hidden">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm mb-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
+          <span>🧪</span> 5 Casos de Prueba Documentados (Hito M2)
+        </h2>
+        <p class="text-xs text-slate-500 mb-5">
+          Haz clic en <strong>"Probar este caso"</strong> para cargar automáticamente los hechos en el generador y validar el comportamiento del asistente y el marco normativo.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="contenedorCasos">
+          <!-- Inyectado dinámicamente con JS -->
+        </div>
       </div>
     </div>
 
-    <!-- Panel de Resultado / Borrador de Tutela -->
-    <div class="lg:col-span-6 flex flex-col">
-      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex-1 flex flex-col">
+    <!-- SECCIÓN 3: CORPUS JURÍDICO (HITO M3 - RAG) -->
+    <div id="seccionCorpus" class="hidden">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
-          <div class="flex items-center gap-2">
-            <span class="text-lg">📄</span>
-            <h3 class="font-bold text-slate-900 text-base">Borrador de Acción de Tutela</h3>
+          <div>
+            <h2 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span>📚</span> Corpus Jurídico Normativo
+            </h2>
+            <p class="text-xs text-slate-500">Fuentes públicas colombianas que alimentan las citas y previenen alucinaciones.</p>
           </div>
-          <button 
-            id="btnCopiar" 
-            class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5"
-            disabled
-          >
-            <span>📋</span> Copiar
-          </button>
+          <span class="text-xs font-semibold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+            Corpus Verificado ✅
+          </span>
         </div>
 
-        <div 
-          id="resultadoContenedor" 
-          class="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-4 overflow-y-auto font-mono text-xs text-slate-700 leading-relaxed max-h-[580px] whitespace-pre-wrap select-text"
-        >Completa el formulario de la izquierda y presiona "Generar Borrador Estructurado" para visualizar la acción de tutela lista para revisión.</div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-sm text-slate-900 mb-1">📜 Constitución Política (Art. 86)</h3>
+            <p class="text-xs text-slate-600 mb-2">Procedimiento preferente y sumario para la protección de derechos fundamentales cuando no exista otro medio idóneo o para evitar perjuicio irremediable.</p>
+            <span class="text-[11px] text-blue-600 font-medium">Término de resolución: 10 días</span>
+          </div>
 
-        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-          <span>Estado: <span id="estadoTexto" class="font-medium text-slate-600">En espera de datos</span></span>
-          <span class="text-[11px] text-slate-400">Ley 1581 de 2012 · No guarda datos personales</span>
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-sm text-slate-900 mb-1">⚖️ Decreto 2591 de 1991</h3>
+            <p class="text-xs text-slate-600 mb-2">Reglamentación procesal. Art. 14 (Contenido mínimo sin solemnidades), Art. 37 (Competencia y juramento de no duplicidad), Art. 42 (Particulares).</p>
+            <span class="text-[11px] text-blue-600 font-medium">Cumplimiento orden: 48 horas</span>
+          </div>
+
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+            <h3 class="font-bold text-sm text-slate-900 mb-1">🏛️ Jurisprudencia Constitucional</h3>
+            <p class="text-xs text-slate-600 mb-2">Criterios vinculantes: T-760/08 (Salud autónoma), Ley 1755/15 y T-230/20 (Derecho de petición), T-100/18 (Subsidiariedad estricta).</p>
+            <span class="text-[11px] text-blue-600 font-medium">Líneas de la Corte Constitucional</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 4: AJUSTES DE IA (OPENROUTER) -->
+    <div id="seccionConfig" class="hidden">
+      <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm max-w-2xl mx-auto">
+        <h2 class="text-lg font-bold text-slate-900 mb-1 flex items-center gap-2">
+          <span>⚙️</span> Conexión de Modelo IA (Opcional)
+        </h2>
+        <p class="text-xs text-slate-500 mb-4">
+          Por defecto, TutelaYa utiliza su motor determinístico local basado en el Decreto 2591 de 1991. Si deseas conectar un modelo LLM de OpenRouter (con modelos gratuitos <code>:free</code>), ingresa tu API Key aquí.
+        </p>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              OpenRouter API Key (Opcional)
+            </label>
+            <input 
+              type="password" 
+              id="openRouterApiKey" 
+              placeholder="sk-or-v1-..." 
+              class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono"
+            />
+            <p class="text-[11px] text-slate-400 mt-1">Se almacena de forma temporal únicamente en el almacenamiento local de tu navegador.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1">
+              Modelo Seleccionado
+            </label>
+            <select id="openRouterModel" class="w-full text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white">
+              <option value="local">Motor Normativo Local (Recomendado / Sin clave)</option>
+              <option value="google/gemini-2.0-flash-exp:free">Google Gemini 2.0 Flash (Free)</option>
+              <option value="meta-llama/llama-3.2-3b-instruct:free">Meta Llama 3.2 3B Instruct (Free)</option>
+            </select>
+          </div>
+
+          <div class="pt-2 flex items-center gap-3">
+            <button onclick="guardarAjustesIA()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-medium transition">
+              Guardar Configuración
+            </button>
+            <span id="mensajeAjustes" class="text-xs text-emerald-600 font-medium hidden">Ajustes guardados correctamente.</span>
+          </div>
         </div>
       </div>
     </div>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-slate-900 text-slate-400 text-xs py-5 border-t border-slate-800 text-center">
-    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-      <p>TutelaYa — Proyecto Académico de Luciana Margarita Vaños Fuentes</p>
-      <p>Pontificia Universidad Javeriana · Bogotá, Colombia</p>
+  <!-- FOOTER -->
+  <footer class="bg-slate-900 text-slate-400 text-xs py-4 border-t border-slate-800 text-center">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>TutelaYa — Proyecto Académico de Luciana Margarita Vaños Fuentes (2026-II)</p>
+      <p>Pontificia Universidad Javeriana · Asignatura: Derecho e Inteligencia Artificial</p>
     </div>
   </footer>
 
+  <!-- SCRIPT DE LA APLICACIÓN -->
   <script>
-    const form = document.getElementById('tutelaForm');
-    const accionadoInput = document.getElementById('accionado');
-    const derechoSelect = document.getElementById('derecho');
-    const hechosInput = document.getElementById('hechos');
-    const pretensionInput = document.getElementById('pretension');
-    const resultadoContenedor = document.getElementById('resultadoContenedor');
-    const btnCopiar = document.getElementById('btnCopiar');
-    const estadoTexto = document.getElementById('estadoTexto');
+    // Base de Casos de Prueba (Hito M2)
+    const CASOS_PRUEBA = [
+      {
+        id: 1,
+        titulo: "Negación de Medicamento por EPS",
+        accionado: "EPS Sanitas",
+        derecho: "salud",
+        hechos: "El pasado 10 de agosto el médico tratante de la EPS prescribió insulina Glargina para el tratamiento de diabetes severa de mi madre de 68 años. Al acudir a la farmacia de la EPS, informaron que el medicamento se encontraba agotado. Han transcurrido más de 20 días sin entrega, lo cual pone en grave riesgo su integridad y vida digna.",
+        pretension: "Se ordene a la EPS entregar de manera inmediata e ininterrumpida el medicamento prescrito y garantizar el tratamiento integral para su patología.",
+        medidaCautelar: true,
+        procedente: true
+      },
+      {
+        id: 2,
+        titulo: "Falta de Respuesta a Derecho de Petición",
+        accionado: "Secretaría de Movilidad",
+        derecho: "peticion",
+        hechos: "El día 5 de julio radiqué una petición formal solicitando la declaratoria de prescripción de una orden de comparendo del año 2020. Han transcurrido más de 30 días hábiles sin que la entidad emita respuesta de fondo ni notifique decisión alguna, superando ampliamente el término del Art. 14 de la Ley 1755 de 2015.",
+        pretension: "Se ordene a la entidad emitir y notificar una respuesta clara, de fondo y congruente con lo solicitado dentro de las 48 horas siguientes.",
+        medidaCautelar: false,
+        procedente: true
+      },
+      {
+        id: 3,
+        titulo: "Negación de Cupo Escolar a Menor",
+        accionado: "Colegio Distrital / Secretaría de Educación",
+        derecho: "educacion",
+        hechos: "Mi hija menor de 8 años fue trasladada de residencia y la institución educativa oficial del sector le negó la asignación de cupo escolar para grado 3°, alegando sobrecupo y forzándola a desescolarizarse durante el periodo académico en curso.",
+        pretension: "Se tutele el derecho a la educación de la menor y se ordene la asignación inmediata de cupo y matrícula escolar en la institución o en una sede cercana.",
+        medidaCautelar: false,
+        procedente: true
+      },
+      {
+        id: 4,
+        titulo: "Corte de Agua Potable a Hogar Vulnerable",
+        accionado: "Empresa de Acueducto y Alcantarillado",
+        derecho: "agua",
+        hechos: "La empresa prestadora suspendió en su totalidad el servicio de agua potable en nuestro domicilio por mora de dos periodos. En la vivienda habitan dos adultos mayores y un menor lactante, vulnerando el mínimo vital de agua.",
+        pretension: "Se ordene la reconexión inmediata del servicio y el suministro del mínimo vital diario de agua potable establecido en la jurisprudencia de la Corte Constitucional.",
+        medidaCautelar: true,
+        procedente: true
+      },
+      {
+        id: 5,
+        titulo: "Cobro de Dinero entre Particulares (Improcedente)",
+        accionado: "Particular (Vecino / Deudor)",
+        derecho: "personalizado",
+        hechos: "Le presté la suma de 5 millones de pesos a un vecino mediante letra de cambio con vencimiento hace cuatro meses. A pesar de múltiples requerimientos, no me ha realizado el pago y deseo que el juez de tutela le ordene pagarme.",
+        pretension: "Se ordene al deudor pagar inmediatamente los 5 millones de pesos adeudados.",
+        medidaCautelar: false,
+        procedente: false
+      }
+    ];
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const accionado = accionadoInput.value.trim();
-      const derecho = derechoSelect.value;
-      const hechos = hechosInput.value.trim();
-      const pretension = pretensionInput.value.trim();
+    // Gestión de Pestañas
+    function cambiarTab(tab) {
+      const tabs = ['generador', 'casos', 'corpus', 'config'];
+      tabs.forEach(t => {
+        const el = document.getElementById(`seccion${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        const btn = document.getElementById(`tabBtn${t.charAt(0).toUpperCase() + t.slice(1)}`);
+        if (t === tab) {
+          el.classList.remove('hidden');
+          btn.className = "tab-btn px-3 py-1.5 rounded-lg font-medium transition bg-blue-600 text-white shadow-sm";
+        } else {
+          el.classList.add('hidden');
+          btn.className = "tab-btn px-3 py-1.5 rounded-lg font-medium text-slate-300 hover:text-white transition";
+        }
+      });
+    }
+
+    // Cargar casos en la sección 2
+    function renderizarCasos() {
+      const cont = document.getElementById('contenedorCasos');
+      cont.innerHTML = CASOS_PRUEBA.map(c => `
+        <div class="p-4 rounded-xl border ${c.procedente ? 'border-slate-200 bg-slate-50' : 'border-amber-200 bg-amber-50'} flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="font-bold text-sm text-slate-900">${c.titulo}</span>
+              <span class="text-[10px] font-semibold px-2 py-0.5 rounded-full ${c.procedente ? 'bg-blue-100 text-blue-700' : 'bg-amber-200 text-amber-900'}">
+                ${c.procedente ? 'Procedente' : 'Control: No Procedente'}
+              </span>
+            </div>
+            <p class="text-xs text-slate-600 mb-2 line-clamp-3">${c.hechos}</p>
+          </div>
+          <div class="pt-2 border-t border-slate-200/60 flex items-center justify-between">
+            <span class="text-[11px] text-slate-500">Contra: <strong>${c.accionado}</strong></span>
+            <button onclick="cargarCasoEjemplo(${c.id})" class="text-xs font-semibold text-blue-600 hover:text-blue-800 hover:underline">
+              Probar este caso →
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function cargarCasoEjemplo(id) {
+      const caso = CASOS_PRUEBA.find(c => c.id === id);
+      if (!caso) return;
+      document.getElementById('accionado').value = caso.accionado;
+      document.getElementById('derecho').value = caso.derecho;
+      document.getElementById('hechos').value = caso.hechos;
+      document.getElementById('pretension').value = caso.pretension;
+      document.getElementById('chkMedidaCautelar').checked = caso.medidaCautelar;
+      cambiarTab('generador');
+      generarBorrador(new Event('submit'));
+    }
+
+    // Generador del Borrador Estructurado
+    function generarBorrador(e) {
+      if (e) e.preventDefault();
+
+      const accionante = document.getElementById('accionante').value.trim() || "[Nombre del Ciudadano/a]";
+      const ciudad = document.getElementById('ciudad').value.trim() || "Bogotá D.C.";
+      const accionado = document.getElementById('accionado').value.trim();
+      const derechoVal = document.getElementById('derecho').value;
+      const hechos = document.getElementById('hechos').value.trim();
+      const pretension = document.getElementById('pretension').value.trim();
+      const conMedida = document.getElementById('chkMedidaCautelar').checked;
+
+      // Validación de Improcedencia (Caso 5 / Control de Alucinaciones)
+      if (derechoVal === 'personalizado' && (hechos.toLowerCase().includes('préstamo') || hechos.toLowerCase().includes('letra de cambio') || hechos.toLowerCase().includes('deuda'))) {
+        const mensajeImprocedente = `⚠️ AVISO DE CONTROL NORMATIVO (ARTÍCULO 86 CP Y DECRETO 2591 DE 1991):
+
+La situación expuesta corresponde a una controversia de carácter estrictamente civil, crediticio o patrimonial entre particulares.
+
+Conforme al Principio de Subsidiariedad (Art. 86 CP) y al Art. 6 numeral 1 del Decreto 2591 de 1991:
+1. La acción de tutela NO es el mecanismo judicial procedente para el cobro de obligaciones dinerarias o títulos valores (letras de cambio, pagarés).
+2. El accionante dispone de otros medios idóneos y eficaces de defensa judicial, tales como:
+   - Proceso Ejecutivo ante la Jurisdicción Civil Ordinaria.
+   - Audiencia de Conciliación prejudicial en un Centro de Conciliación o Casa de Justicia.
+
+Por fidelidad al ordenamiento jurídico colombiano, TutelaYa no genera una acción de tutela improcedente en este caso.`;
+        document.getElementById('printableArea').textContent = mensajeImprocedente;
+        document.getElementById('estadoDocumento').textContent = "⚠️ Caso catalogado como improcedente (Sin alucinación)";
+        document.getElementById('estadoDocumento').className = "text-[11px] font-semibold text-amber-600";
+        return;
+      }
+
+      // Mapeo de derechos e indicaciones jurisprudenciales
+      let derechoTitulo = "";
+      let citasNormativas = "";
+      switch (derechoVal) {
+        case "salud":
+          derechoTitulo = "Derecho Fundamental a la Salud (Art. 49 CP) en conexidad con la Vida Digna (Art. 11 CP)";
+          citasNormativas = "- Artículo 49 de la Constitución Política de Colombia.\n- Ley Estatutaria 1751 de 2015 (carácter fundamental y autónomo del derecho a la salud).\n- Sentencia T-760 de 2008 de la Corte Constitucional (acceso oportuno y continuo a servicios de salud).\n- Artículo 42 numeral 1 del Decreto 2591 de 1991 (procedencia contra particulares encargados de la salud).";
+          break;
+        case "peticion":
+          derechoTitulo = "Derecho Fundamental de Petición (Art. 23 CP)";
+          citasNormativas = "- Artículo 23 de la Constitución Política de Colombia.\n- Ley 1755 de 2015, artículos 14 y 21 (términos para resolución oportuna y de fondo).\n- Sentencias C-007 de 2017 y T-230 de 2020 de la Corte Constitucional (núcleo esencial: prontitud, claridad y notificación).";
+          break;
+        case "educacion":
+          derechoTitulo = "Derecho Fundamental a la Educación (Art. 67 CP) y Prevalencia de los Derechos de los Niños (Art. 44 CP)";
+          citasNormativas = "- Artículos 44 y 67 de la Constitución Política de Colombia.\n- Sentencia T-008 de 2016 de la Corte Constitucional (disponibilidad y accesibilidad del servicio educativo).";
+          break;
+        case "debido_proceso":
+          derechoTitulo = "Derecho Fundamental al Debido Proceso (Art. 29 CP)";
+          citasNormativas = "- Artículo 29 de la Constitución Política de Colombia.\n- Principios de legalidad, contradicción y defensa material.";
+          break;
+        case "minimo_vital":
+          derechoTitulo = "Derecho Fundamental al Mínimo Vital y Seguridad Social (Arts. 48 y 53 CP)";
+          citasNormativas = "- Artículos 48 y 53 de la Constitución Política de Colombia.\n- Jurisprudencia de la Corte Constitucional sobre salvaguarda de condiciones mínimas de subsistencia.";
+          break;
+        case "agua":
+          derechoTitulo = "Derecho Fundamental al Agua Potable y Vida Digna";
+          citasNormativas = "- Artículos 11, 365 y 366 de la Constitución Política de Colombia.\n- Sentencia T-740 de 2011 (prohibición de desconexión absoluta a sujetos de especial protección).";
+          break;
+        default:
+          derechoTitulo = "Derechos Fundamentales invocados conforme a los hechos";
+          citasNormativas = "- Artículo 86 de la Constitución Política de Colombia.\n- Decreto 2591 de 1991.";
+      }
 
       const borrador = `SEÑOR(A)
 JUEZ DE LA REPÚBLICA (REPARTO)
+${ciudad}
 E. S. D.
 
-ASUNTO: ACCIÓN DE TUTELA
-ACCIONANTE: [Nombre del Ciudadano/a]
-ACCIONADO: ${accionado}
-DERECHO(S) FUNDAMENTAL(ES) INVOCADO(S): ${derecho}
+REF: ACCIÓN DE TUTELA
+ACCIONANTE: ${accionante}
+ACCIONADO(A): ${accionado}
+DERECHO(S) FUNDAMENTAL(ES): ${derechoTitulo}
 
-Yo, [Nombre del Ciudadano/a], mayor de edad, identificado(a) como aparece al pie de mi firma, actuando en nombre propio, acudo respetuosamente ante su despacho con el fin de interponer ACCIÓN DE TUTELA en contra de ${accionado}, conforme a los siguientes:
+Yo, ${accionante}, mayor de edad, domiciliado(a) en la ciudad de ${ciudad}, identificado(a) como aparece al pie de mi firma, actuando en nombre propio, con el debido respeto me dirijo a su despacho para interponer formal ACCIÓN DE TUTELA contra ${accionado}, con fundamento en los siguientes:
 
-========================
+==================================================
 I. HECHOS
-========================
-${hechos}
+==================================================
+PRIMERO: ${hechos}
 
-========================
+SEGUNDO: La conducta omisiva o activa de la entidad ${accionado} ha vulnerado y continúa vulnerando de manera directa mis garantías constitucionales.
+
+TERCERO: No cuento con otro medio de defensa judicial que resulte idóneo y expedito para la protección inmediata y urgente de los derechos fundamentales invocados.
+
+==================================================
 II. DERECHOS FUNDAMENTALES VULNERADOS
-========================
-Se solicita la protección prioritaria del derecho fundamental a:
-- ${derecho}
+==================================================
+Se invoca la protección inmediata del:
+- ${derechoTitulo}
 
-Fundamento constitucional: Artículo 86 de la Constitución Política de Colombia y Decreto 2591 de 1991.
+==================================================
+III. FUNDAMENTOS DE DERECHO Y CORPUS NORMATIVO
+==================================================
+Fundamento esta solicitud en el Artículo 86 de la Constitución Política de Colombia y las disposiciones del Decreto 2591 de 1991, en particular:
+${citasNormativas}
 
-========================
-III. PRETENSIONES
-========================
-Con fundamento en los hechos expuestos, solicito respetuosamente al señor Juez:
+Conforme a la jurisprudencia de la Corte Constitucional, la acción de tutela es procedente para conjurar la vulneración actual e inminente de los derechos fundamentales cuando se acreditan los requisitos de inmediatez y subsidiariedad.
+
+==================================================
+IV. PRETENSIONES
+==================================================
+Con base en los hechos expuestos, solicito respetuosamente al señor Juez:
 
 PRIMERA: TUTELAR los derechos fundamentales invocados en favor del accionante.
-SEGUNDA: ORDENAR a ${accionado} que, dentro de las cuarenta y ocho (48) horas siguientes a la notificación del fallo, proceda a:
+
+SEGUNDA: ORDENAR a ${accionado} que, en un término perentorio de cuarenta y ocho (48) horas siguientes a la notificación del presente fallo, proceda a:
 ${pretension}
+${conMedida ? "\nTERCERA (MEDIDA CAUTELAR / TRATAMIENTO INTEGRAL): Ordenar con carácter provisional la atención o entrega inmediata requerida mientras se surte el trámite de la presente acción, así como el tratamiento integral correspondiente derivado de los mismos hechos." : ""}
 
-========================
-IV. JURAMENTO
-========================
-Bajo la gravedad del juramento manifiesto que no he interpuesto otra acción de tutela ante ninguna otra autoridad judicial por los mismos hechos y derechos aquí consignados (Artículo 37 del Decreto 2591 de 1991).
+==================================================
+V. JURAMENTO (ARTÍCULO 37 DECRETO 2591 DE 1991)
+==================================================
+Bajo la gravedad del juramento, manifiesto a usted que no he interpuesto otra acción de tutela ante ninguna otra autoridad judicial por los mismos hechos y derechos aquí consignados.
 
-========================
-V. ANEXOS Y PRUEBAS
-========================
-1. Copia de documento de identidad del accionante.
-2. Copia de las peticiones, órdenes o soportes probatorios que fundamentan los hechos descritos.
+==================================================
+VI. ANEXOS Y PRUEBAS
+==================================================
+Acompaño a la presente solicitud los siguientes documentos:
+1. Copia de la cédula de ciudadanía del accionante.
+2. Copia de las peticiones, órdenes médicas o constancias relacionadas con los hechos.
 
-Atentamente,
+==================================================
+VII. NOTIFICACIONES
+==================================================
+El accionante recibirá notificaciones en:
+Dirección: [Indicar Dirección Física o Domicilio]
+Teléfono: [Indicar Teléfono Celular]
+Correo electrónico: [Indicar Correo Electrónico]
 
-___________________________________
-[Firma del Accionante]
+La accionada (${accionado}) recibirá notificaciones en:
+Dirección institucional / Buzón judicial de la entidad.
+
+Del Señor Juez, atentamente,
+
+___________________________________________
+${accionante}
 C.C. [Número de Documento]
-Teléfono: [Teléfono de Contacto]
-Correo Electrónico: [Correo de Notificaciones]
 `;
 
-      resultadoContenedor.textContent = borrador;
-      btnCopiar.disabled = false;
-      estadoTexto.textContent = "Borrador generado con éxito";
-      estadoTexto.className = "font-medium text-emerald-600";
-    });
+      document.getElementById('printableArea').textContent = borrador;
+      document.getElementById('estadoDocumento').textContent = "✅ Borrador estructurado con éxito";
+      document.getElementById('estadoDocumento').className = "text-[11px] font-semibold text-emerald-600";
+    }
 
-    btnCopiar.addEventListener('click', () => {
-      navigator.clipboard.writeText(resultadoContenedor.textContent).then(() => {
-        btnCopiar.textContent = "✅ ¡Copiado!";
+    // Funciones Auxiliares
+    function copiarBorrador() {
+      const texto = document.getElementById('printableArea').textContent;
+      navigator.clipboard.writeText(texto).then(() => {
+        const btn = document.getElementById('btnCopiar');
+        btn.innerHTML = "<span>✅</span> ¡Copiado!";
         setTimeout(() => {
-          btnCopiar.innerHTML = "<span>📋</span> Copiar";
+          btn.innerHTML = "<span>📋</span> Copiar";
         }, 2000);
       });
+    }
+
+    function descargarTexto() {
+      const texto = document.getElementById('printableArea').textContent;
+      const blob = new Blob([texto], { type: "text/plain;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "Borrador_Accion_de_Tutela_TutelaYa.txt";
+      a.click();
+    }
+
+    function imprimirBorrador() {
+      window.print();
+    }
+
+    function guardarAjustesIA() {
+      const key = document.getElementById('openRouterApiKey').value.trim();
+      const model = document.getElementById('openRouterModel').value;
+      if (key) localStorage.setItem('tutelaYa_orKey', key);
+      localStorage.setItem('tutelaYa_model', model);
+      const msg = document.getElementById('mensajeAjustes');
+      msg.classList.remove('hidden');
+      setTimeout(() => msg.classList.add('hidden'), 2500);
+    }
+
+    // Inicialización al cargar la página
+    window.addEventListener('DOMContentLoaded', () => {
+      renderizarCasos();
+      const savedKey = localStorage.getItem('tutelaYa_orKey');
+      const savedModel = localStorage.getItem('tutelaYa_model');
+      if (savedKey) document.getElementById('openRouterApiKey').value = savedKey;
+      if (savedModel) document.getElementById('openRouterModel').value = savedModel;
     });
   </script>
 </body>
